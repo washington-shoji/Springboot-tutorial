@@ -3,7 +3,9 @@ package com.dailycodebuffer.Springboot.tutorial.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -22,10 +24,17 @@ public class DepartmentServiceTest {
 
     @BeforeEach
     void setUp() {
-        // Department department = Department;
+        Department department = Department.builder()
+                .departmentName("IT")
+                .departmentAddress("Sydney")
+                .departmentCode("IT-07")
+                .departmentId(1L).build();
+
+        Mockito.when(departmentRepository.findByDepartmentNameIgnoreCase("IT")).thenReturn(department);
     }
 
     @Test
+    @DisplayName("Get Data based on Valid Department Name")
     public void whenValidDepartmentName_thenDepartmentShouldFound() {
 
         String departmentName = "IT";
